@@ -119,29 +119,14 @@ def movement_detail(request, pk):
         return Response({'message': 'Movement deleted successfully'}, status=status.HTTP_200_OK)
 
 
-# ================tranditional way================
-
-# @csrf_exempt
-# def workoutset_list_create(request):
-#     if request.method == 'GET':
-#         sets = WorkoutSet.objects.all()
-#         # 使用 values() 並加入關聯表的數據
-#         json_data = serializers.serialize('json', sets)
-#
-#         return JsonResponse(json_data, safe=False)
-#
-#     if request.method == 'POST':
-#         context = json.loads(request.body)
-#         movement_id = context.get('movement')
-#         movement = get_object_or_404(Movement, pk=movement_id)
-#         set = WorkoutSet.objects.create(
-#             movement=movement,
-#             reps=context.get('reps'),
-#             sets=context.get('sets'),
-#             weight=context.get('weight', None),
-#             note=context.get('note', None)
-#         )
-#         return JsonResponse(model_to_dict(set), status=201)
+@api_view(['GET'])
+def exercise_movements(request, exercise_id):
+    try:
+        movements=Movement.objects.filter(exercise_id=exercise_id)
+        serializer = MovementSerializer(movements, many=True)
+        return Response(serializer.data)
+    except Exercise.DoesNotExist:
+        return Response({'error': 'Exercise not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -183,6 +168,15 @@ def workoutset_detail(request, pk):
         workout_set.delete()
         return Response({'message': 'WorkoutSet deleted successfully'}, status=status.HTTP_200_OK)
 
+
+@api_view(['GET'])
+def movement_workoutsets(request, movement_id):
+    try:
+        workout_sets=WorkoutSet.objects.filter(movement_id=movement_id)
+        serializer = WorkoutSetSerializer(workout_sets, many=True)
+        return Response(serializer.data)
+    except Movement.DoesNotExist:
+        return Response({'error': 'Movement not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 # ===================== 傳統方式=====================

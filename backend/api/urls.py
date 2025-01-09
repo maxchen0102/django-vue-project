@@ -11,9 +11,11 @@ urlpatterns = [
 
     path('movements/', views.movement_list_create, name='movement_list_create'),
     path('movements/<int:pk>/', views.movement_detail, name='movement_detail'),
+    path('exercises/<int:exercise_id>/movements/', views.exercise_movements, name='exercise-movements'),
 
     path('workoutsets/', views.workoutset_list_create, name='workoutset_list_create'),
     path('workoutsets/<int:pk>/', views.workoutset_detail, name='workoutset_detail'),
+    path('movements/<int:movement_id>/workoutsets/', views.movement_workoutsets, name='movement-workoutsets'),
 ]
 
 # =============傳統方式================
