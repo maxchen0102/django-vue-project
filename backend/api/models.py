@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-
 class Exercise(models.Model):
     name = models.CharField(max_length=100, verbose_name="訓練部位")
     description = models.TextField(blank=True, verbose_name="描述")
@@ -13,6 +12,7 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.name
+
 
 
 class Movement(models.Model):

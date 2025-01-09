@@ -5,6 +5,19 @@
   text-align: center;
 }
 
+/* App.css */
+.app-container {
+  min-height: 100vh;
+  background-color: #f3f4f6;
+}
+
+.main-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 0;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
