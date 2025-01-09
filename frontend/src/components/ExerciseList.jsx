@@ -25,7 +25,7 @@ function ExerciseList() {
 
     // 組件掛載時自動獲取數據
     useEffect(() => {
-        fetchExercises()
+        // fetchExercises()
     }, [])
 
     if (loading) {
@@ -40,7 +40,7 @@ function ExerciseList() {
 
     return (
         <div className="container-fluid container-md py-3 py-md-4">
-            <div className="exercise-header p-3 p-md-4 mb-3 mb-md-4">
+            <div className="p-3 p-md-4 mb-3 mb-md-4">
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 gap-md-0">
                     <div className="w-100 w-md-auto">
                         <h1 className="h3 mb-2">運動項目列表</h1>
@@ -51,8 +51,7 @@ function ExerciseList() {
                         disabled={loading}
                         className="btn btn-primary w-100 w-md-auto d-flex align-items-center justify-content-center gap-2"
                     >
-                        <i className="bi bi-arrow-clockwise"></i>
-                        {loading ? '載入中...' : '重新載入'}
+                        {loading ? '載入中...' : '載入資料'}
                     </button>
                 </div>
             </div>
