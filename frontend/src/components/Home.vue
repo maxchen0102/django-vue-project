@@ -38,7 +38,7 @@
       <!-- 操作按鈕 -->
       <div class="d-flex flex-column gap-3">
         <!-- 開始訓練按鈕 -->
-        <div class="card shadow-sm">
+        <div class="card shadow-sm" @click="navigateToExerciseList">
           <div class="card-body d-flex align-items-center gap-3">
             <div class="bg-primary rounded-circle p-3 d-flex align-items-center justify-content-center icon-container">
               <i class="bi bi-activity text-white fs-5"></i>
@@ -69,6 +69,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import router from "../router/index.js";
 
 // 狀態定義
 const exercises = ref([])
@@ -83,6 +84,11 @@ const stats = ref({
   totalMinutes: 180,
   completedSets: 24
 })
+
+function navigateToExerciseList() {
+  console.log('go to exercise list')
+  router.push({ name: 'ExerciseList' })
+}
 
 // 獲取運動數據
 const fetchExercises = async () => {
