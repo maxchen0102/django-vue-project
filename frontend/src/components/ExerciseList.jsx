@@ -1,10 +1,18 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import './ExerciseList.css'
 
 function ExerciseList() {
     const [exercises, setExercises] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+    const [count, setCount] = useState(0)
+    const [disabled, setDisabled] = useState(false)
+
+      const stats = {
+        weeklyWorkouts: 4,
+        totalMinutes: 180,
+        completedSets: 24
+      };
 
     const fetchExercises = async () => {
         setLoading(true)
@@ -23,87 +31,97 @@ function ExerciseList() {
         }
     }
 
-    // 組件掛載時自動獲取數據
     useEffect(() => {
         // fetchExercises()
     }, [])
 
-    if (loading) {
-        return (
-            <div className="d-flex justify-content-center align-items-center min-vh-50">
-                <div className="spinner-border loading-spinner text-primary" role="status">
-                    <span className="visually-hidden">載入中...</span>
-                </div>
-            </div>
-        )
+
+    function handleClick() {
+        if (count >= 10) {
+            setDisabled(true)
+            return
+        }
+        setCount(count + 1)
     }
 
-    return (
-        <div className="container-fluid container-md py-3 py-md-4">
-            <div className="p-3 p-md-4 mb-3 mb-md-4">
-                <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 gap-md-0">
-                    <div className="w-100 w-md-auto">
-                        <h1 className="h3 mb-2">運動項目列表</h1>
-                        <p className="text-muted d-none d-md-block mb-0">探索並追蹤您的運動計劃</p>
-                    </div>
-                    <button
-                        onClick={fetchExercises}
-                        disabled={loading}
-                        className="btn btn-primary w-100 w-md-auto d-flex align-items-center justify-content-center gap-2"
-                    >
-                        {loading ? '載入中...' : '載入資料'}
-                    </button>
-                </div>
-            </div>
+    const handleDelete = () => {
+        setLoading(true)
+        try {
+            setCount(count - 1)
+        } finally {
+            setLoading(false)
+        }
+    }
 
-            {error && (
-                <div className="alert alert-danger mx-2 mx-md-0" role="alert">
-                    <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                    {error}
-                </div>
-            )}
-
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 g-md-4">
-                {exercises.length === 0 ? (
-                    <div className="col-12 text-center py-5">
-                        <i className="bi bi-clipboard-x display-1 text-muted mb-4 d-block"></i>
-                        <h3 className="h4 mb-3">尚無運動項目</h3>
-                        <p className="text-muted">目前沒有任何運動項目。</p>
-                    </div>
-                ) : (
-                    exercises.map((exercise) => (
-                        <div className="col" key={exercise.id}>
-                            <div className="card exercise-card h-100">
-                                <div className="card-body">
-                                    <div className="d-flex justify-content-between align-items-start mb-3">
-                                        <h5 className="card-title text-truncate mb-0" title={exercise.name}>
-                                            {exercise.name}
-                                        </h5>
-                                        <span className="badge bg-primary ms-2 text-nowrap">運動</span>
-                                    </div>
-                                    <p className="card-text exercise-description">
-                                        {exercise.description}
-                                    </p>
-                                </div>
-                                <div className="card-footer bg-light">
-                                    <div className="d-flex flex-column gap-1">
-                                        <small className="text-muted d-flex align-items-center">
-                                            <i className="bi bi-calendar-plus me-2"></i>
-                                            建立時間: {new Date(exercise.created_at).toLocaleString()}
-                                        </small>
-                                        <small className="text-muted d-flex align-items-center">
-                                            <i className="bi bi-calendar-check me-2"></i>
-                                            更新時間: {new Date(exercise.updated_at).toLocaleString()}
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                )}
-            </div>
+   return (
+    <div className="min-vh-100 bg-light">
+      {/* 導航欄 */}
+      <nav className="navbar bg-primary">
+        <div className="container">
+          <span className="navbar-brand mb-0 h1 text-white">FitLife</span>
+          <button className="btn text-white">
+            <i className="bi bi-person fs-4"></i>
+          </button>
         </div>
-    )
+      </nav>
+
+      {/* 主要內容區 */}
+      <div className="container py-4">
+        {/* 統計卡片 */}
+        <div className="card shadow-sm mb-4">
+          <div className="card-body">
+            {/* 健身次數 */}
+            <div className="bg-light rounded p-3 mb-3">
+              <p className="text-secondary mb-1">本週健身次數</p>
+              <p className="text-primary fs-3 fw-bold mb-0">{stats.weeklyWorkouts}次</p>
+            </div>
+
+            {/* 訓練時間 */}
+            <div className="bg-light rounded p-3 mb-3">
+              <p className="text-secondary mb-1">累計訓練時間</p>
+              <p className="text-primary fs-3 fw-bold mb-0">{stats.totalMinutes}分</p>
+            </div>
+
+            {/* 完成組數 */}
+            <div className="bg-light rounded p-3">
+              <p className="text-secondary mb-1">完成組數</p>
+              <p className="text-primary fs-3 fw-bold mb-0">{stats.completedSets}組</p>
+            </div>
+
+          </div>
+        </div>
+
+        {/* 操作按鈕 */}
+        <div className="d-flex flex-column gap-3">
+          {/* 開始訓練按鈕 */}
+          <div className="card shadow-sm">
+            <div className="card-body d-flex align-items-center gap-3">
+              <div className="bg-primary rounded-circle p-3 d-flex align-items-center justify-content-center  icon-container">
+                <i className="bi bi-activity text-white fs-5"></i>
+              </div>
+              <div>
+                <h6 className="mb-1">開始訓練</h6>
+                <small className="text-secondary">記錄今天的訓練</small>
+              </div>
+            </div>
+          </div>
+
+          {/* 科學分析按鈕 */}
+          <div className="card shadow-sm">
+            <div className="card-body d-flex align-items-center gap-3">
+              <div className="bg-info rounded-circle p-3 d-flex align-items-center justify-content-center" style={{ width: '48px', height: '48px' }}>
+                <i className="bi bi-graph-up text-white fs-5"></i>
+              </div>
+              <div>
+                <h6 className="mb-1">科學分析</h6>
+                <small className="text-secondary">專業數據分析</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default ExerciseList
