@@ -8,14 +8,13 @@ urlpatterns = [
     path('exercises/', views.exercise_list_create, name='exercise_list_create'),
     path('exercises/<int:pk>/', views.exercise_detail, name='exercise_detail'),
 
-
-    path('movements/', views.movement_list_create, name='movement_list_create'),
+    # get the list of movements for a specific exercise
+    path('movements/<int:exercise_id>/', views.movement_list_create, name='movement_list_create'),
     path('movements/<int:pk>/', views.movement_detail, name='movement_detail'),
-    path('exercises/<int:exercise_id>/movements/', views.exercise_movements, name='exercise-movements'),
 
-    path('workoutsets/', views.workoutset_list_create, name='workoutset_list_create'),
+    # get the list of workoutsets for a specific movement
+    path('workoutsets/<int:movement_id>/', views.workoutset_list_create, name='workoutset_list_create'),
     path('workoutsets/<int:pk>/', views.workoutset_detail, name='workoutset_detail'),
-    path('movements/<int:movement_id>/workoutsets/', views.movement_workoutsets, name='movement-workoutsets'),
 ]
 
 # =============傳統方式================

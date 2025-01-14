@@ -78,7 +78,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import './ExerciseList.css'
+import './css/ExerciseList.css'
 
 const router = useRouter()
 const exercises = ref([])

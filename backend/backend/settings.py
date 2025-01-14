@@ -59,12 +59,19 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://localhost:5175",  # 注意結尾不要有斜線
+#     "http://127.0.0.1:11111"
+# ]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",
+#     "http://127.0.0.1:5173",
+#     "http://localhost:11111",  # 添加這行
+#     "http://127.0.0.1:11111"  # 添加這行
+# ]
 
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5174",  # 您的 Vue 應用程序的 URL
-    "http://127.0.0.1:5174",
-]
+
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'backend.urls'

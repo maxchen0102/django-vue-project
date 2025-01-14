@@ -45,6 +45,7 @@ def exercise_list_create(request):
 
 # 詳細、更新和刪除 (Read One, Update & Delete)
 @api_view(['GET', 'PUT', 'DELETE'])
+@csrf_exempt
 def exercise_detail(request, pk):
     try:
         exercise = Exercise.objects.get(pk=pk)
@@ -52,16 +53,10 @@ def exercise_detail(request, pk):
         return Response({'error': 'Exercise not found'}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        # 獲取該exercise相關的所有movements
-        movements = Movement.objects.filter(exercise=exercise)
-
-        # 序列化exercise和movements
+        # 序列化exercise
         exercise_data = ExerciseSerializer(exercise).data
-        movements_data = MovementSerializer(movements, many=True).data
-
         response_data = {
             'exercise': exercise_data,
-            'movements': movements_data
         }
 
         return Response(response_data)
@@ -78,17 +73,17 @@ def exercise_detail(request, pk):
         return Response({'message': 'Exercise deleted successfully'}, status=status.HTTP_200_OK)
 
 
-
-
-
 @api_view(['GET', 'POST'])
-def movement_list_create(request):
+def movement_list_create(request, exercise_id):
+    # get all movements that belong to the exercise
     if request.method == 'GET':
-        movements = Movement.objects.all()
+        movements = Movement.objects.filter(exercise_id=exercise_id)
         serializer = MovementSerializer(movements, many=True)
         return Response(serializer.data)
 
+    # add a new movement that belongs to the exercise
     if request.method == 'POST':
+        request.data['exercise'] = exercise_id # add exercise_id to the request data before creating the movement
         serializer = MovementSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -119,26 +114,17 @@ def movement_detail(request, pk):
         return Response({'message': 'Movement deleted successfully'}, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-def exercise_movements(request, exercise_id):
-    try:
-        movements=Movement.objects.filter(exercise_id=exercise_id)
-        serializer = MovementSerializer(movements, many=True)
-        return Response(serializer.data)
-    except Exercise.DoesNotExist:
-        return Response({'error': 'Exercise not found'}, status=status.HTTP_404_NOT_FOUND)
-
-
-
-
 @api_view(['GET', 'POST'])
-def workoutset_list_create(request):
+def workoutset_list_create(request, movement_id):
+    # get all workoutsets that belong to the movement
     if request.method == 'GET':
-        sets = WorkoutSet.objects.all()
-        serializer = WorkoutSetSerializer(sets, many=True)
+        workout_sets = WorkoutSet.objects.filter(movement_id=movement_id)
+        serializer = WorkoutSetSerializer(workout_sets, many=True)
         return Response(serializer.data)
 
+    # add a new workoutset that belongs to the movement
     if request.method == 'POST':
+        request.data['movement'] = movement_id
         serializer = WorkoutSetSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -169,14 +155,6 @@ def workoutset_detail(request, pk):
         return Response({'message': 'WorkoutSet deleted successfully'}, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-def movement_workoutsets(request, movement_id):
-    try:
-        workout_sets=WorkoutSet.objects.filter(movement_id=movement_id)
-        serializer = WorkoutSetSerializer(workout_sets, many=True)
-        return Response(serializer.data)
-    except Movement.DoesNotExist:
-        return Response({'error': 'Movement not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 # ===================== 傳統方式=====================
