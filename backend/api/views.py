@@ -27,7 +27,9 @@ def data(request):
 
 
 def homepage_data(request):
+    pass
 
+# qwe
 
 
 # 列表和新增 (Read All & Create)
