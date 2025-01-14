@@ -15,6 +15,10 @@ urlpatterns = [
     # get the list of workoutsets for a specific movement
     path('workoutsets/<int:movement_id>/', views.workoutset_list_create, name='workoutset_list_create'),
     path('workoutsets/<int:pk>/', views.workoutset_detail, name='workoutset_detail'),
+
+
+    #get all data for homepage
+    path('homepage/', views.homepage_data, name='homepage_data'),
 ]
 
 # =============傳統方式================

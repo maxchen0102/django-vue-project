@@ -26,6 +26,9 @@ def data(request):
     })
 
 
+def homepage_data(request):
+
+
 
 # 列表和新增 (Read All & Create)
 @api_view(['GET', 'POST'])
