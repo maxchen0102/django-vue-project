@@ -51,8 +51,9 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated', # 預設api都需要加入decorator 權限驗證
+        'rest_framework.permissions.IsAuthenticated'  # 預設api都需要加入decorator 權限驗證
         # 'rest_framework.permissions.AllowAny', # 所有人都可以訪問api view
+
 
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [

@@ -136,7 +136,16 @@ const fetchExercises = async () => {
   loading.value = true
   error.value = null
   try {
-    const response = await fetch('http://localhost:11111/api/exercises/')
+    const token = localStorage.getItem('token')
+    console.log("token:",token)
+
+    const response = await fetch('http://localhost:11111/api/exercises/',{
+      headers: {
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
     if (!response.ok) {
       throw new Error('網路請求失敗')
     }

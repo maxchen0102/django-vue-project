@@ -16,6 +16,7 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -120,6 +121,7 @@ def login_view(request):
 
 # 列表和新增 (Read All & Create)
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def exercise_list_create(request):
     if request.method == 'GET':
         exercises = Exercise.objects.all()
