@@ -19,6 +19,10 @@ urlpatterns = [
 
     #get all data for homepage
     path('homepage/', views.homepage_data, name='homepage_data'),
+
+    path('register/', views.register_view, name='register'),
+    path('login/', views.login_view, name='login'),
+
 ]
 
 # =============傳統方式================

@@ -46,7 +46,21 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'corsheaders',
+    'rest_framework.authtoken', # API 才會用到
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated', # 預設api都需要加入decorator 權限驗證
+        # 'rest_framework.permissions.AllowAny', # 所有人都可以訪問api view
+
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -59,10 +73,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     "http://localhost:5175",  # 注意結尾不要有斜線
-#     "http://127.0.0.1:11111"
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5175",  # 注意結尾不要有斜線
+    "http://127.0.0.1:11111"
+]
 # CORS_ALLOWED_ORIGINS = [
 #     "http://localhost:5173",
 #     "http://127.0.0.1:5173",

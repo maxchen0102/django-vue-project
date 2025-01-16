@@ -11,6 +11,14 @@ from .models import Exercise, Movement, WorkoutSet
 from .serializers import ExerciseSerializer, MovementSerializer, WorkoutSetSerializer
 from django.forms.models import model_to_dict
 from django.core import serializers
+from rest_framework.permissions import AllowAny
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes
+from django.contrib.auth import authenticate
+
+
+
 
 
 def hello_world(request):
@@ -29,12 +37,86 @@ def data(request):
 def homepage_data(request):
     pass
 
-# qwe
-# awe
-# 4
-# 5
-# 6
-# 7
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def register_view(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    # 驗證必要欄位
+    if not username or not password:
+        return Response(
+            {'error': '請提供帳號和密碼'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    # 檢查用戶名是否已存在
+    if User.objects.filter(username=username).exists():
+        return Response(
+            {'error': '此帳號已被註冊'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        # 創建新用戶
+        user = User.objects.create_user(
+            username=username,
+            password=password,
+        )
+
+        token, _ = Token.objects.get_or_create(user=user)
+
+        return Response({
+            'token': token.key,
+            'user_id': user.pk,
+            'username': user.username
+        }, status=status.HTTP_201_CREATED)
+
+    except Exception as e:
+        return Response(
+            {'error': f'註冊失敗: {str(e)}'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def login_view(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    # 驗證必要欄位
+    if not username or not password:
+        return Response(
+            {'error': '請提供帳號和密碼'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    user = authenticate(username=username, password=password)
+
+    if user is None:
+        return Response(
+            {'error': '帳號或密碼錯誤'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        # 獲取或創建 token
+        token, _ = Token.objects.get_or_create(user=user)
+
+        return Response({
+            'token': token.key,
+            'user_id': user.pk,
+            'username': user.username
+        })
+
+    except Exception as e:
+        return Response(
+            {'error': f'登入失敗: {str(e)}'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
 
 # 列表和新增 (Read All & Create)
 @api_view(['GET', 'POST'])
