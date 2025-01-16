@@ -11,5 +11,10 @@ export default defineConfig({
         changeOrigin: true
       }
     }
-  }
+  },
+
+    build: {
+    outDir: '../backend/static/dist',
+    emptyOutDir: true
+  },
 })

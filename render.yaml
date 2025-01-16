@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: django-vue-project        # 更改為你的應用名稱
+    env: python
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: cd backend && gunicorn backend.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: NODE_VERSION
+        value: 16.x
+      - key: DJANGO_DEBUG
+        value: false
+    # 這裡可以設定資源配置
+    plan: free  # 或是 starter/standard/pro
+    # 自動部署設定
+    branch: main  # 要部署的分支
+    # 部署前執行的命令
+    preDeployCommand: cd backend && python manage.py migrate
