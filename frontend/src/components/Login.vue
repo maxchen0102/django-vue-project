@@ -11,7 +11,7 @@
       </div>
       <button type="submit">登入</button>
     </form>
-     <div class="register-link">
+    <div class="register-link">
       還沒有帳號？ <router-link to="/register">立即註冊</router-link>
     </div>
   </div>
@@ -19,41 +19,36 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 
-// 路由實例
 const router = useRouter()
-const route = useRoute()
-
-// 響應式數據
 const username = ref('')
 const password = ref('')
 
-// 登入方法
 const handleLogin = async () => {
   try {
-    // 發送登入請求到後端
     const response = await fetch('/api/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: username.value,  // 要使用 .value 取值
+        username: username.value,
         password: password.value
       })
     })
 
-    if (response.ok) {
-      const data = await response.json()
-      // 儲存 token
-      localStorage.setItem('token', data.token)
+    const data = await response.json()
 
-      // 取得重新導向地址或預設跳轉到首頁
-      const redirectPath = route.query.redirect || '/'
-      router.push(redirectPath)
+    if (response.ok) {
+      // 儲存 tokens
+      localStorage.setItem('access_token', data.access)
+      localStorage.setItem('refresh_token', data.refresh)
+
+      alert('登入成功！')
+      router.push('/') // 導向首頁或儀表板
     } else {
-      alert('登入失敗，請檢查帳號和密碼')
+      alert(data.detail || '登入失敗，請檢查帳號密碼')
     }
   } catch (error) {
     console.error('登入錯誤:', error)
@@ -86,9 +81,24 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  margin-bottom: 15px;
 }
 
 button:hover {
   background-color: #45a049;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.register-link a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
 }
 </style>

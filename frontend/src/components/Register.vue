@@ -31,7 +31,6 @@ const password = ref('')
 const confirmPassword = ref('')
 
 const handleRegister = async () => {
-  // 檢查密碼是否匹配
   if (password.value !== confirmPassword.value) {
     alert('兩次輸入的密碼不一致')
     return
@@ -49,11 +48,14 @@ const handleRegister = async () => {
       })
     })
 
+    const data = await response.json()
+
     if (response.ok) {
+      // 儲存 JWT token
+      localStorage.setItem('token', data.token)
       alert('註冊成功！')
-      router.push('/login')
+      router.push('/') // 導向首頁或儀表板
     } else {
-      const data = await response.json()
       alert(data.message || '註冊失敗，請稍後重試')
     }
   } catch (error) {

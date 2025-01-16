@@ -1,6 +1,11 @@
 # backend/api/urls.py
 from django.urls import path
 from . import views
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 
 urlpatterns = [
     path('hello/', views.hello_world, name='hello_world'),
@@ -22,6 +27,8 @@ urlpatterns = [
 
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),
+
+
 
 ]
 

@@ -17,6 +17,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 
 
@@ -66,12 +68,16 @@ def register_view(request):
             password=password,
         )
 
-        token, _ = Token.objects.get_or_create(user=user)
+        # 生成 JWT token
+        refresh = RefreshToken.for_user(user)
 
         return Response({
-            'token': token.key,
-            'user_id': user.pk,
-            'username': user.username
+            'token': str(refresh.access_token),
+            'refresh': str(refresh),
+            'user': {
+                'id': user.pk,
+                'username': user.username
+            }
         }, status=status.HTTP_201_CREATED)
 
     except Exception as e:
@@ -104,12 +110,15 @@ def login_view(request):
 
     try:
         # 獲取或創建 token
-        token, _ = Token.objects.get_or_create(user=user)
+        refresh = RefreshToken.for_user(user)
 
         return Response({
-            'token': token.key,
-            'user_id': user.pk,
-            'username': user.username
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+            'user': {
+                'id': user.pk,
+                'username': user.username
+            }
         })
 
     except Exception as e:

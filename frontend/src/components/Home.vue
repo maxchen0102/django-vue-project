@@ -138,10 +138,16 @@ const fetchExercises = async () => {
   try {
     const token = localStorage.getItem('token')
     console.log("token:",token)
+    if (!token) {
+      error.value = "Token not found. Please log in again."
+      loading.value = false
+      return
+    }
+
 
     const response = await fetch('http://localhost:11111/api/exercises/',{
       headers: {
-        'Authorization': `Token ${token}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     })
