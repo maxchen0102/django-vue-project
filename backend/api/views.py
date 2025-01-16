@@ -147,7 +147,7 @@ def exercise_list_create(request):
 
 # 詳細、更新和刪除 (Read One, Update & Delete)
 @api_view(['GET', 'PUT', 'DELETE'])
-@csrf_exempt
+@permission_classes([IsAuthenticated])
 def exercise_detail(request, pk):
     try:
         exercise = Exercise.objects.get(pk=pk)
@@ -176,6 +176,7 @@ def exercise_detail(request, pk):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def movement_list_create(request, exercise_id):
     # get all movements that belong to the exercise
     if request.method == 'GET':
@@ -194,6 +195,7 @@ def movement_list_create(request, exercise_id):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def movement_detail(request, pk):
     try:
         movement = Movement.objects.get(pk=pk)  # 取得id為pk的Movement物件
@@ -217,6 +219,7 @@ def movement_detail(request, pk):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def workoutset_list_create(request, movement_id):
     # get all workoutsets that belong to the movement
     if request.method == 'GET':
@@ -235,6 +238,7 @@ def workoutset_list_create(request, movement_id):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def workoutset_detail(request, pk):
     try:
         workout_set = WorkoutSet.objects.get(pk=pk)

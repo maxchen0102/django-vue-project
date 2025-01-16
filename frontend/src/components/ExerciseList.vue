@@ -85,7 +85,13 @@ const exercises = ref([])
 const showModal = ref(false)
 const newExerciseName = ref('')
 const isSubmitting = ref(false)
-const deleteThreshold = -80
+const deleteThreshold = -8
+const token = localStorage.getItem('token')
+
+
+
+console.log("token:",token)
+
 
 let touchStartX = 0
 let currentExercise = null
@@ -103,7 +109,12 @@ const getCsrfToken = () => {
 
 const fetchExercises = async () => {
   try {
-    const response = await fetch('/api/exercises/')
+    const response = await fetch('/api/exercises/',{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
     if (!response.ok) {
       throw new Error('網路請求失敗')
     }
@@ -128,6 +139,7 @@ const handleDelete = async (exercise) => {
       method: 'DELETE',
       headers: {
         'X-CSRFToken': getCsrfToken(),
+        'Authorization':`Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       credentials: 'include'
@@ -165,6 +177,7 @@ const handleSubmit = async () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization':`Bearer ${token}`,
         'X-CSRFToken': getCsrfToken()
       },
       credentials: 'include',

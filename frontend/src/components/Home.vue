@@ -131,39 +131,6 @@ function navigateToExerciseList() {
   router.push({ name: 'ExerciseList' })
 }
 
-// 獲取運動數據
-const fetchExercises = async () => {
-  loading.value = true
-  error.value = null
-  try {
-    const token = localStorage.getItem('token')
-    console.log("token:",token)
-    if (!token) {
-      error.value = "Token not found. Please log in again."
-      loading.value = false
-      return
-    }
-
-
-    const response = await fetch('http://localhost:11111/api/exercises/',{
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    })
-
-    if (!response.ok) {
-      throw new Error('網路請求失敗')
-    }
-    const data = await response.json()
-    exercises.value = data
-    console.log("健身部位數據:",data)
-  } catch (err) {
-    error.value = err.message
-  } finally {
-    loading.value = false
-  }
-}
 
 // 點擊處理
 const handleClick = () => {
@@ -192,7 +159,7 @@ const handleLogout = () => {
 
 // 生命週期鉤子
 onMounted(() => {
-  fetchExercises()
+  // fetchExercises()
 })
 </script>
 

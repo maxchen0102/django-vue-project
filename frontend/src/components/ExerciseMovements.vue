@@ -72,7 +72,7 @@ const movements = ref([])
 const showModal = ref(false)
 const newExerciseName = ref('')
 const isSubmitting = ref(false)
-
+const token = localStorage.getItem('token')
 
 
 const goBack = () => {
@@ -94,7 +94,8 @@ const handleSubmit = async () => {
     const response = await fetch(`http://localhost:11111/api/movements/${exerciseId}/`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         name: newExerciseName.value
@@ -122,7 +123,11 @@ const handleMovementClick = (movement) => {
 const fetchMovements = async () => {
   console.log('Fetching movements for exercise:', exerciseId)
   try {
-    const response = await fetch(`http://localhost:11111/api/movements/${exerciseId}/`)
+    const response = await fetch(`http://localhost:11111/api/movements/${exerciseId}/`,{
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     if (!response.ok) {
       throw new Error('網路請求失敗')
     }

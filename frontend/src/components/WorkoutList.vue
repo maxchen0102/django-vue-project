@@ -95,6 +95,7 @@ const newReps = ref('')
 const newSets = ref('')
 const newWeight = ref('')
 const isSubmitting = ref(false)
+const token = localStorage.getItem('token')
 
 
 const goBack = () => {
@@ -115,7 +116,11 @@ const formatDate = (dateString) => {
 
 const fetchWorkouts = async () => {
   try {
-    const response = await fetch(`http://localhost:11111/api/workoutsets/${movement_id}/`)
+    const response = await fetch(`http://localhost:11111/api/workoutsets/${movement_id}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     if (!response.ok) {
       throw new Error('網路請求失敗')
     }
@@ -141,7 +146,8 @@ const handleSubmit= async ()=>{
     const response = await fetch(`http://localhost:11111/api/workoutsets/${movement_id}/`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
         reps: newReps.value,
