@@ -63,8 +63,8 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # 存取token有效期
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # 更新token有效期
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=36500),  # 存取token有效期
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=36500),     # 更新token有效期
     'ROTATE_REFRESH_TOKENS': False,
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,

@@ -90,9 +90,6 @@ const token = localStorage.getItem('token')
 
 
 
-console.log("token:",token)
-
-
 let touchStartX = 0
 let currentExercise = null
 
@@ -159,7 +156,13 @@ const handleDelete = async (exercise) => {
 }
 
 const handleExerciseClick = (exercise) => {
-  router.push(`/exercise/${exercise.id}`)
+  console.log('Clicked exercise:', exercise.name)
+  router.push(
+      {
+       path: `/exercise/${exercise.id}`,
+       query: { name: exercise.name }
+      }
+  )
 }
 
 const handleSubmit = async () => {

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="page-title">訓練動作</h1>
+    <h1 class="page-title">您訓練 {{ecercisename_name}} 的動作清單</h1>
     <div class="row">
     <button class="btn btn-danger mb-3" @click="showModal = true">新增訓練部位</button>
   <button class="btn btn-danger " @click="goBack">返回</button>
@@ -67,12 +67,16 @@ import {onMounted, ref} from "vue"
 
 const route = useRoute()
 const router = useRouter()
-const exerciseId = route.params.id
+
 const movements = ref([])
 const showModal = ref(false)
 const newExerciseName = ref('')
 const isSubmitting = ref(false)
 const token = localStorage.getItem('token')
+
+const exerciseId = route.params.id
+const ecercisename_name = route.query.name
+
 
 
 const goBack = () => {
@@ -139,7 +143,6 @@ const fetchMovements = async () => {
 }
 
 onMounted(() => {
-  console.log('Exercise ID:', exerciseId)
   fetchMovements()
 })
 </script>

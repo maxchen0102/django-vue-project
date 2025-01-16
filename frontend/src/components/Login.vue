@@ -42,7 +42,7 @@ const handleLogin = async () => {
 
     if (response.ok) {
       // 儲存 tokens
-      localStorage.setItem('access_token', data.access)
+      localStorage.setItem('token', data.access)
       localStorage.setItem('refresh_token', data.refresh)
 
       alert('登入成功！')
