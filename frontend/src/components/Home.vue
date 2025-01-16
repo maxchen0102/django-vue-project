@@ -1,14 +1,55 @@
 <template>
   <div class="min-vh-100 bg-light">
     <!-- 導航欄 -->
-    <nav class="navbar bg-primary">
+        <nav class="navbar bg-primary">
       <div class="container">
         <span class="navbar-brand mb-0 h1 text-white">FitLife</span>
-        <button class="btn text-white">
+        <button
+          class="btn text-white"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#sidebar"
+          aria-controls="sidebar"
+        >
           <i class="bi bi-person fs-4"></i>
         </button>
       </div>
     </nav>
+
+        <!-- 側邊欄 -->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="sidebar"
+      aria-labelledby="sidebarLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="sidebarLabel">使用者選單</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="d-flex flex-column">
+          <button class="btn btn-link text-decoration-none text-start">
+            <i class="bi bi-person-circle me-2"></i>個人資料
+          </button>
+          <button class="btn btn-link text-decoration-none text-start">
+            <i class="bi bi-gear me-2"></i>設定
+          </button>
+          <button
+            class="btn btn-danger mt-auto"
+            @click="handleLogout"
+          >
+            <i class="bi bi-box-arrow-right me-2"></i>登出
+          </button>
+        </div>
+      </div>
+    </div>
+
 
     <!-- 主要內容區 -->
     <div class="container py-4">
@@ -128,6 +169,12 @@ const handleDelete = () => {
   }
 }
 
+// 登出
+const handleLogout = () => {
+  localStorage.removeItem('token')
+  router.push('/login')
+}
+
 // 生命週期鉤子
 onMounted(() => {
   fetchExercises()
@@ -138,5 +185,9 @@ onMounted(() => {
 .icon-container {
   width: 48px;
   height: 48px;
+}
+
+.offcanvas {
+  width: 250px;
 }
 </style>
