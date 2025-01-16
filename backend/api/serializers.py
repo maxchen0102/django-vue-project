@@ -6,15 +6,19 @@ class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
         fields = ['id', 'name', 'description', 'created_at', 'updated_at']
+        read_only_fields = ['user']
 
 
 class MovementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movement
         fields = ['id', 'name', 'description', 'exercise', 'created_at', 'updated_at']
+        read_only_fields = ['user']
 
 
 class WorkoutSetSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkoutSet
         fields = ['id', 'movement', 'reps', 'sets', 'weight', 'note', 'created_at', 'updated_at']
+        read_only_fields = ['user']
+

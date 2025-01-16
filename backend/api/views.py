@@ -133,14 +133,14 @@ def login_view(request):
 @permission_classes([IsAuthenticated])
 def exercise_list_create(request):
     if request.method == 'GET':
-        exercises = Exercise.objects.all()
+        exercises = Exercise.objects.filter(user=request.user)
         serializer = ExerciseSerializer(exercises, many=True)
         return Response(serializer.data)
 
     if request.method == 'POST':
         serializer = ExerciseSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -178,9 +178,15 @@ def exercise_detail(request, pk):
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def movement_list_create(request, exercise_id):
+
+    try:
+        exercise = Exercise.objects.get(id=exercise_id)
+    except Exercise.DoesNotExist:
+        return Response({'error': 'Exercise not found'}, status=404)
+
     # get all movements that belong to the exercise
     if request.method == 'GET':
-        movements = Movement.objects.filter(exercise_id=exercise_id)
+        movements = Movement.objects.filter(exercise_id=exercise_id, user=request.user)
         serializer = MovementSerializer(movements, many=True)
         return Response(serializer.data)
 
@@ -189,7 +195,7 @@ def movement_list_create(request, exercise_id):
         request.data['exercise'] = exercise_id # add exercise_id to the request data before creating the movement
         serializer = MovementSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -223,7 +229,7 @@ def movement_detail(request, pk):
 def workoutset_list_create(request, movement_id):
     # get all workoutsets that belong to the movement
     if request.method == 'GET':
-        workout_sets = WorkoutSet.objects.filter(movement_id=movement_id)
+        workout_sets = WorkoutSet.objects.filter(movement_id=movement_id,user=request.user)
         serializer = WorkoutSetSerializer(workout_sets, many=True)
         return Response(serializer.data)
 
@@ -232,7 +238,7 @@ def workoutset_list_create(request, movement_id):
         request.data['movement'] = movement_id
         serializer = WorkoutSetSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
