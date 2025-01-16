@@ -121,7 +121,12 @@ const handleSubmit = async () => {
 const handleMovementClick = (movement) => {
   // 可以加入點擊處理邏輯
   console.log('Clicked movement:', movement)
-  router.push(`/workoutList/${movement.id}`)
+  router.push(
+      {
+        path : `/workoutList/${movement.id}`,
+        query: { name: movement.name }
+      }
+  )
 }
 
 const fetchMovements = async () => {

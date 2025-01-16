@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="main-title">訓練記錄</h1>
+    <h1 class="main-title">您 {{movement_name}} 的訓練記錄</h1>
     <button class="btn btn-danger mb-3" @click="showModal = true">新增訓練記錄</button>
     <button class="btn btn-danger mb-3 " @click="goBack">返回</button>
 
@@ -96,6 +96,8 @@ const newSets = ref('')
 const newWeight = ref('')
 const isSubmitting = ref(false)
 const token = localStorage.getItem('token')
+
+const movement_name = route.query.name
 
 
 const goBack = () => {
