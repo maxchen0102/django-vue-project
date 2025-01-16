@@ -15,6 +15,7 @@ export default defineConfig({
 
     build: {
     outDir: '../backend/static/dist',
+     assetsDir: 'assets', // 確保資源檔案放在 assets 子目錄
     emptyOutDir: true
   },
 })
