@@ -30,6 +30,8 @@ const username = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 const handleRegister = async () => {
   if (password.value !== confirmPassword.value) {
     alert('兩次輸入的密碼不一致')
@@ -37,7 +39,7 @@ const handleRegister = async () => {
   }
 
   try {
-    const response = await fetch('/api/register/', {
+    const response = await fetch(`${API_BASE_URL}/api/register/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

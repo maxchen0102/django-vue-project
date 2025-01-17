@@ -78,6 +78,10 @@ const exerciseId = route.params.id
 const ecercisename_name = route.query.name
 
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
+
 
 const goBack = () => {
   router.go(-1)
@@ -95,7 +99,7 @@ const handleSubmit = async () => {
   }
   isSubmitting.value = true
   try {
-    const response = await fetch(`http://localhost:11111/api/movements/${exerciseId}/`, {
+    const response = await fetch(`${API_BASE_URL}/api/movements/${exerciseId}/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

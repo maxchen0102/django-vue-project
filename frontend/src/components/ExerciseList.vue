@@ -88,6 +88,9 @@ const isSubmitting = ref(false)
 const deleteThreshold = -8
 const token = localStorage.getItem('token')
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
 
 
 let touchStartX = 0
@@ -106,7 +109,7 @@ const getCsrfToken = () => {
 
 const fetchExercises = async () => {
   try {
-    const response = await fetch('/api/exercises/',{
+    const response = await fetch(`${API_BASE_URL}/api/exercises/`,{
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'

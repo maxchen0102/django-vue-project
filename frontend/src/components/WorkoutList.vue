@@ -98,7 +98,7 @@ const isSubmitting = ref(false)
 const token = localStorage.getItem('token')
 
 const movement_name = route.query.name
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const goBack = () => {
   router.go(-1)
@@ -118,7 +118,7 @@ const formatDate = (dateString) => {
 
 const fetchWorkouts = async () => {
   try {
-    const response = await fetch(`http://localhost:11111/api/workoutsets/${movement_id}/`, {
+    const response = await fetch(`${API_BASE_URL}/api/workoutsets/${movement_id}/`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -145,7 +145,7 @@ const handleSubmit= async ()=>{
   }
   isSubmitting.value = true
   try {
-    const response = await fetch(`http://localhost:11111/api/workoutsets/${movement_id}/`, {
+    const response = await fetch(`${API_BASE_URL}/api/workoutsets/${movement_id}/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
