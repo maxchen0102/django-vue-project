@@ -136,7 +136,7 @@ const handleMovementClick = (movement) => {
 const fetchMovements = async () => {
   console.log('Fetching movements for exercise:', exerciseId)
   try {
-    const response = await fetch(`http://localhost:11111/api/movements/${exerciseId}/`,{
+    const response = await fetch(`${API_BASE_URL}/api/movements/${exerciseId}/`,{
       headers: {
         'Authorization': `Bearer ${token}`
       }
