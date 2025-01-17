@@ -74,14 +74,10 @@ MIDDLEWARE = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5175",  # 注意結尾不要有斜線
-    "http://127.0.0.1:11111"
+    "http://127.0.0.1:11111",
+    "https://workout-27vo.onrender.com",
 ]
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",
-#     "http://127.0.0.1:5173",
-#     "http://localhost:11111",  # 添加這行
-#     "http://127.0.0.1:11111"  # 添加這行
-# ]
+
 
 CORS_ALLOW_ALL_ORIGINS = True
 
