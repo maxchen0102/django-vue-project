@@ -20,8 +20,7 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -156,11 +155,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-# 靜態檔案設定
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # 收集的所有靜態檔案最終放置位置(vue+django)
+# 在html 用到
+STATIC_URL = 'static/'
+
+# Django 在 生產環境才需要 用來 統一收集 所有靜態資源的目錄 (collectstatic 會用到)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Django 在 開發環境才需要 讀取的靜態檔案目錄（Vue build 的輸出也在這裡）
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,  'static'),  # 收集暫存Vue build完後靜態檔案位置
+    os.path.join(BASE_DIR,  'static'),
+    os.path.join(BASE_DIR, 'static/dist')  # 添加 Vue build 輸出目錄
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 

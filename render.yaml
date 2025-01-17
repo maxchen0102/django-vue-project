@@ -9,8 +9,8 @@ services:
         value: 3.9.0
       - key: NODE_VERSION
         value: 16.x
-      - key: DJANGO_DEBUG
-        value: false
+      - key: DEBUG
+        value: False
     # 這裡可以設定資源配置
     plan: free  # 或是 starter/standard/pro
     # 自動部署設定
