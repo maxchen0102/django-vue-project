@@ -8,25 +8,19 @@ export default defineConfig({
   plugins: [
       vue(),
       VitePWA({
-      registerType: 'prompt',
-      manifest: {
-        name: '您的應用程式名稱',
-        short_name: '短名稱',
-        description: '應用程式描述',
-        theme_color: '#41b883',
-        background_color: '#ffffff',
-        display: 'standalone',
-        start_url: "/",
+      manifestFilename: 'manifest.json',
+      registerType: 'autoUpdate',
+     manifest: {
+        name: "My App",
+        short_name: "App",
+        display: "standalone", // 這會移除網址列
+        background_color: "#ffffff",
+        theme_color: "#ffffff",
         icons: [
           {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
+            src: "pwa-logo.png", // 只需要一個基本圖標
+            sizes: "512x512",
+            type: "image/png"
           }
         ]
       }
